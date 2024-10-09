@@ -1,0 +1,14 @@
+version: "2"
+services:
+  practice_docker: 
+    image: node-test:latest
+    ports: 
+      - 3000:3000
+
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@54.237.98.29:5432/test
+      - DB_HOST=54.237.98.29
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=test
+      - DB_PORT=5432 
