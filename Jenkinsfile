@@ -10,19 +10,24 @@ pipeline {
             }
         }
 
-        
-    stage('Build') {
-            steps {
-                sh 'node -v'  
-                sh 'npm -v'
-                sh 'npm install'
-                sh 'npm build'
-            }
+        environment {
+        PATH = "$HOME/.nvm/versions/node/v20.14.0/bin:$PATH"
         }
-
-    stage('Test') {
-            steps {
-                sh 'npm test --coverage'
+        
+        stage('Build') {
+                steps {
+                    sh 'which node'
+                    sh 'which npm'
+                    sh 'node -v'  
+                    sh 'npm -v'
+                    sh 'npm install'
+                    sh 'npm run build'
+                }
+            }
+    
+        stage('Test') {
+                steps {
+                    sh 'npm test --coverage'
             }
         }     
     }
