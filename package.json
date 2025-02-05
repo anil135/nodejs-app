@@ -15,7 +15,7 @@
     "devDependencies":{
         "nodemon": "^2.0.22",
         "jest-junit": "^13.0.0"
-    }
+    },
     "dependencies": {
         "npm": "10.7.0",
         "express": "4.21.0",
