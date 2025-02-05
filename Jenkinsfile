@@ -1,12 +1,7 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_IMAGE = 'anil135/nodejs-app'
-        DOCKER_CREDENTIALS_ID = 'docker-repo-credentials' // Docker credentials stored in Jenkins
-
-    }
-
+    
     stages {
         stage('Checkout') {
             steps {
@@ -15,34 +10,17 @@ pipeline {
             }
         }
 
-
-        stage('Build Docker Image') {
+    stage('Build') {
             steps {
-                // Build the Docker image for the microservice
-                sh "docker build -t ${DOCKER_IMAGE}:${env.BUILD_NUMBER} ."
+                sh 'npm install'
+                sh 'npm build'
             }
         }
 
-        stage('Push Docker Image') {
+    stage('Test') {
             steps {
-                // Push the Docker image to the repository
-                withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh '''
-                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                        docker push ${DOCKER_IMAGE}:${BUILD_NUMBER}
-                    '''
-                }
+                sh 'npm test --coverage'
             }
-        }
-
-    }
-
-    post {
-        success {
-            echo 'Pipeline completed successfully.Docker image pushed to Repo'
-        }
-        failure {
-            echo 'Pipeline failed. Check the logs for errors.'
-        }
+        }     
     }
 }
