@@ -13,8 +13,6 @@ pipeline {
             }
         }
 
-    
-        
         stage('Build') {
                 steps {
                     sh 'which node'
@@ -30,6 +28,12 @@ pipeline {
                 steps {
                     sh 'npm test --coverage'
             }
-        }     
+        }  
+
+        stage('Store Artifacts') {
+            steps {
+                archiveArtifacts artifacts: '**/dist/**, **/coverage/**', fingerprint: true
+            }
+        }
     }
 }
